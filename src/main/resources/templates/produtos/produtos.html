@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/layout" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <title layout:fragment="title" th:text="Produtos">Produtos</title>
+</head>
+
+<body>
+   <div id="main" layout:fragment="content">
+    <p><input type="button"  class="btn btn-primary btn-sm" value="Cadastrar novo Produto" onclick="javascript:window.location='/mvc/produtos?new'" /></p>
+    <p><input type="button"  class="btn btn-primary btn-sm" value="Visualizar Carrinho" onclick="javascript:window.location='/mvc/produtos?car'" /></p>
+    <table class="table table-striped table-bordered">
+        <caption class="text-center lead" th:text="Produtos">Add Title</caption>
+        <thead>
+            <tr>
+                <th scope="col" th:text="Nome">Nome</th>
+                <th scope="col" th:text="Preço">Preço</th>
+                <th scope="col" th:text="Produtor">Produtor</th>
+                <th scope="col" th:text="País">País</th>
+                <th scope="col" th:text="Região">Região</th>
+                <th scope="col" th:text="Safra">Safra</th>
+                <th scope="col" th:text="Tipo">Tipo</th>
+                <th scope="col" th:text="Uva">Uva</th>
+                <th scope="col" th:text="TeorÁlcoolico">TeorÁlcoolico</th>
+                <th scope="col" th:text="Volume">Volume</th>
+                <th scope="col" th:text="Status">Status</th>
+                <th scope="col" th:text="Ações">Ações</th>
+                <th scope="col" th:text="Adicionar">Adicionar</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="produto : ${produtos}">
+
+                <td th:text="${produto.nome}">nome</td>
+                <td th:text="${produto.preco}">preco</td>
+                <td th:text="${produto.produtor}">produtor</td>
+                <td th:text="${produto.pais}">pais</td>
+                <td th:text="${produto.regiao}">regiao</td>
+                <td th:text="${produto.safra}">safra</td>
+                <td th:text="${produto.tipo}">tipo</td>
+                <td th:text="${produto.uva}">uva</td>
+                <td th:text="${produto.teorAlcoolico}">teorAlcoolico</td>
+                <td th:text="${produto.volume}">volume</td>
+                                
+                <td th:if="${produto.isAtivo}" th:text="Inativo">Inativo</td>
+                <td th:unless="${produto.isAtivo}" th:text="Ativo">Ativo</td>
+                
+                <td> <a th:href="@{produtos/edit/} + ${produto.produtoId}" th:text="Editar"> </a>
+				  	 /
+                     <a th:href="@{produtos/delete/} + ${produto.produtoId}" th:text="Deletar"></a>
+                </td>
+                
+                 <td> <a th:href="@{produtos/edit/} + ${produto.produtoId}" th:text="Adicionar"> </a> </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>

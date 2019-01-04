@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/layout" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <title layout:fragment="title" th:text="Deletar">Deletar</title>
+</head>
+
+<body>
+    <div id="main" layout:fragment="content">
+       <form th:object="${produto}" method="post">
+           <table class="table table-striped table-bordered">
+               <caption class="text-center lead" th:text="Deletar">Add Title</caption>
+               <thead>
+               <tr>
+                   <th th:text="FieldName">FieldName</th>
+                   <th th:text="FieldValue">FieldValue</th>
+               </tr>
+               </thead>
+               <tbody>
+               <tr><td><input type="text" hidden="hidden" th:field="*{produtoId}"/></td><td></td></tr>
+               
+               <tr><td th:text="Nome">Nome</td> <td><input type="text" disabled="disabled" th:field="*{nome}"/></td></tr>
+               <tr><td th:text="Preço">Preço</td> <td><input type="text" disabled="disabled" th:field="*{preco}"/></td></tr>
+               <tr><td th:text="Produtor">Produtor</td> <td><input type="text" disabled="disabled" th:field="*{produtor}"/></td></tr>
+               <tr><td th:text="País">País</td> <td><input type="text" disabled="disabled" th:field="*{pais}"/></td></tr>
+               <tr><td th:text="Região">Região</td> <td><input type="text" disabled="disabled" th:field="*{regiao}"/></td></tr>
+               <tr><td th:text="Safra">Safra</td> <td><input type="text" disabled="disabled" th:field="*{safra}"/></td></tr>
+               <tr><td th:text="Tipo">Tipo</td> <td><input type="text" disabled="disabled" th:field="*{tipo}"/></td></tr>
+               <tr><td th:text="Uva">Uva</td> <td><input type="text" disabled="disabled" th:field="*{uva}"/></td></tr>
+               <tr><td th:text="TeorÁlcoolico">TeorÁlcoolico</td> <td><input type="text" disabled="disabled" th:field="*{teorAlcoolico}"/></td></tr>
+               <tr><td th:text="Volume">Volume</td> <td><input type="text" disabled="disabled" th:field="*{volume}"/></td></tr>
+               
+               <tr>
+                   <td>
+                       <button type="submit" class="btn btn-success btn-sm" name="action" value="delete" th:text="Deletar">Deletar</button>
+                   </td>
+                   <td>
+                       <button type="submit" class="btn btn-default btn-sm" name="action" value="cancel" th:text="Cancelar">Cancelar</button>
+                   </td>
+               </tr>
+               </tbody>
+           </table>
+       </form>
+   </div>
+</body>
+</html>
