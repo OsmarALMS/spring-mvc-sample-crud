@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.sample.model.Carrinho;
 import br.com.sample.model.Produto;
+import br.com.sample.services.CarrinhoService;
 import br.com.sample.services.ProdutoService;
 
 @Controller
@@ -20,6 +22,9 @@ public class ProdutosController {
     
 	@Autowired
     ProdutoService produtoService;
+	
+	@Autowired
+    CarrinhoService carrinhoService;
 
     @RequestMapping(method=RequestMethod.GET)
     public String produtos(Model model) {
@@ -35,15 +40,37 @@ public class ProdutosController {
     
     @RequestMapping(params="car", method=RequestMethod.GET)
     public String produtoListCarView(Model model) {
-        //TODO
-        return "";
+    	model.addAttribute("carrinhos", carrinhoService.getAll());
+    	return "carrinho/carrinhos";
     }
+    
+    @RequestMapping(value = "/limpar", method=RequestMethod.GET)
+    public String limparCarrinho(Model model) {
+    	carrinhoService.getAll().forEach(c -> {
+    		carrinhoService.delete(carrinhoService.get(c.getCarrinhoId()));
+    	});
+    	model.addAttribute("carrinhos", carrinhoService.getAll());
+    	return "carrinho/carrinhos";
+    }
+    
+    @RequestMapping(value = "/addCar/{produtoId}", method=RequestMethod.GET)
+    public String produtoAddCar(@PathVariable("produtoId") long produtoId, Model model) {
+       Produto produto = produtoService.get(produtoId);
+       
+       Carrinho carProduto = carrinhoService.getByProduto(produto.getNome());
+       if(carProduto == null) {
+    	   carrinhoService.add(new Carrinho(1L, produto.getNome()));
+       }else {
+    	   carProduto.setQuantidade(carProduto.getQuantidade()+1);
+    	   carrinhoService.edit(carProduto);
+       }
+       
+       model.addAttribute("carrinhos", carrinhoService.getAll());
+       return "carrinho/carrinhos";
+   }
 
     @RequestMapping(method = RequestMethod.POST)
     public String addProdutoFromForm(@Valid Produto produto, BindingResult bindingResult, @RequestParam(value="action", required=true) String action) {
-        
-    	System.out.println(" ~~ "+action);
-    	
     	if (action.equals("save")) {
             if (bindingResult.hasErrors()) {
                 return "produtos/edit";
@@ -82,7 +109,7 @@ public class ProdutosController {
         model.addAttribute("produto", produtoService.get(produtoId));
         return "produtos/delete";
     }
-
+    
     @RequestMapping(value = "/delete/{produtoId}", method=RequestMethod.POST)
     public String produtoDelete(@PathVariable("produtoId") long produtoId, Model model, @Valid Produto produto, BindingResult bindingResult,  @RequestParam(value="action", required=true) String action ) {
         addProdutoFromForm(produto, bindingResult, action);

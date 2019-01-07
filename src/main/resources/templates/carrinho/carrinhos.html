@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/layout" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <title layout:fragment="title" th:text="Carrinho">Carrinho</title>
+</head>
+
+<body>
+   <div id="main" layout:fragment="content">
+    <p><input type="button"  class="btn btn-primary btn-sm" value="Voltar" onclick="javascript:window.location='/mvc/produtos'" /></p>
+    <p><input type="button"  class="btn btn-primary btn-sm" value="Limpar Carrinho" onclick="javascript:window.location='/mvc/produtos/limpar'" /></p>
+    <table class="table table-striped table-bordered">
+        <caption class="text-center lead" th:text="Carrinho">Add Title</caption>
+        <thead>
+            <tr>
+                <th scope="col" th:text="Quantidade">Quantidade</th>
+                <th scope="col" th:text="Produto">Produto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="carrinho : ${carrinhos}">
+                <td th:text="${carrinho.quantidade}">quantidade</td>
+                <td th:text="${carrinho.produto}">produto</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>
